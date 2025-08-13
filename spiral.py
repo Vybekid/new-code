@@ -1,32 +1,32 @@
-import pygame
-import random
+import turtle
+import colorsys
 
-# Initialize Pygame
-pygame.init()
+# Set up the screen for the graphic
+screen = turtle.Screen()
+screen.bgcolor("black")
 
-# Screen dimensions and setup
-WIDTH, HEIGHT = 800, 600
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Starfield")
-clock = pygame.time.Clock()
+# Create and configure the turtle
+t = turtle.Turtle()
+t.speed(0)
+t.width(2)
+t.hideturtle()
 
-# Generate stars with random positions and speeds [x, y, speed]
-stars = [[random.randrange(WIDTH), random.randrange(HEIGHT), random.uniform(1, 5)] for _ in range(300)]
+# Initialize hue for color cycling
+hue = 0.0
 
-# Main animation loop
-while True:
-    screen.fill((0, 0, 10))  # A dark blue space color
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT: pygame.quit(); exit()
+# Loop to draw the rotating squares
+for i in range(150):
+    # Set the color for the current square
+    color = colorsys.hsv_to_rgb(hue, 1.0, 1.0)
+    t.pencolor(color)
 
-    for star in stars:
-        # Move the star and reset it if it goes off-screen
-        star[0] -= star[2]
-        if star[0] < 0:
-            star[0] = WIDTH; star[1] = random.randrange(HEIGHT)
+    # Draw one square
+    for _ in range(4):
+        t.forward(i * 2.5)
+        t.right(90)
 
-        # Draw the star as a small circle
-        pygame.draw.circle(screen, (255, 255, 255), (star[0], star[1]), max(1, int(star[2] / 2)))
+    # Rotate for the next square and update color
+    t.right(7)
+    hue += 0.005
 
-    pygame.display.flip()
-    clock.tick(60) # Limit frame rate to 60 FPS
+turtle.done()
