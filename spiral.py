@@ -1,32 +1,26 @@
-import turtle
-import colorsys
+from turtle import *
+import colorsys as cs
 
-# Set up the screen for the graphic
-screen = turtle.Screen()
-screen.bgcolor("black")
+bgcolor('black')
+tracer(10)
+pensize(4)
+h = 0
 
-# Create and configure the turtle
-t = turtle.Turtle()
-t.speed(0)
-t.width(2)
-t.hideturtle()
+for i in range(200):
+    c = cs.hsv_to_rgb(h, 1, 1)
+    h += 0.01  
+    fillcolor(c)
+    pencolor('black')
 
-# Initialize hue for color cycling
-hue = 0.0
+    begin_fill()
 
-# Loop to draw the rotating squares
-for i in range(150):
-    # Set the color for the current square
-    color = colorsys.hsv_to_rgb(hue, 1.0, 1.0)
-    t.pencolor(color)
+    fd(i)
+    rt(67)
+    fd(i)
+    circle(i, 30)
+    fd(i)
+    lt(190)
 
-    # Draw one square
-    for _ in range(4):
-        t.forward(i * 2.5)
-        t.right(90)
+    end_fill()
 
-    # Rotate for the next square and update color
-    t.right(7)
-    hue += 0.005
-
-turtle.done()
+done()
