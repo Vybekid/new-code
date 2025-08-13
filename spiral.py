@@ -1,30 +1,28 @@
-import turtle
-import colorsys
+import pygame
+import random
 
-# Set up the screen
-screen = turtle.Screen()
-screen.bgcolor("black")
+# Initialize Pygame
+pygame.init()
 
-# Create a turtle
-t = turtle.Turtle()
-t.speed(0)
-t.width(2)
+# Screen dimensions
+WIDTH, HEIGHT = 800, 600
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Matrix Rain")
 
-# Set the initial hue
-hue = 0.0
+# Colors and Font
+BLACK = (0, 0, 0)
+GREEN = (0, 255, 0)
+font = pygame.font.SysFont('monospace', 20)
 
-# Loop to draw the spiral
-for i in range(360):
-    # Set the color using HSV color space
-    rgb = colorsys.hsv_to_rgb(hue, 1.0, 1.0)
-    t.pencolor(rgb)
+# Setup for the rain drops
+drops = [1 for _ in range(WIDTH // 20)]
 
-    # Move the turtle
-    t.forward(i * 2)
-    t.right(121)
-
-    # Increment the hue for the next color
-    hue += 0.005
-
-turtle.done()
-H
+# Game loop
+while True:
+    screen.fill(BLACK)
+    for i, y in enumerate(drops):
+        text = font.render(random.choice("01"), True, GREEN)
+        x = i * 20
+        screen.blit(text, (x, y * 20))
+        drops[i] = y + 1 if y * 20 < HEIGHT and random.random() > 0.975 else 0
+    pygame.display.flip()
