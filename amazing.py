@@ -1,33 +1,41 @@
 import turtle
-import colorsys
-
+import math
+import colorsys as cs
 # Set up the screen and turtle
 screen = turtle.Screen()
 screen.bgcolor("black")
 t = turtle.Turtle()
-t.speed(0)  # Set the drawing speed to the fastest
-t.pensize(2)
+t.speed(0)
+t.hideturtle()
+screen.tracer(0) # Turn off screen updates for instant drawing
 
-# Set the initial hue
-h = 0.0
+# Define the golden angle
+golden_angle = 137.5
 
 # Drawing loop
-for i in range(120):
-    # Convert HSV color to RGB
-    c = colorsys.hsv_to_rgb(h, 1, 1)
+for i in range(500):
+    # Calculate the radius (distance from the center)
+    # The radius increases, making the spiral grow outwards
+    radius = 4 * math.sqrt(i)
     
-    # Set the color
-    t.pencolor(c)
+    # Calculate the angle for the current dot
+    angle = i * golden_angle
     
-    # Draw a circle
-    t.circle(150)
+    # Convert polar coordinates (radius, angle) to Cartesian (x, y)
+    x = radius * math.cos(math.radians(angle))
+    y = radius * math.sin(math.radians(angle))
     
-    # Rotate the turtle for the next circle
-    t.right(3)
+    # Use the radius to determine the color, creating a gradient
+    # from the center outwards
+    hue = (radius / 300) % 1  # Normalize radius for hue value
+    r, g, b = turtle.cs.hsv_to_rgb(hue, 1, 1)
     
-    # Increment hue for color change
-    h += 0.008
+    # Move to position and draw a dot
+    t.penup()
+    t.goto(x, y)
+    t.pendown()
+    t.dot(15, (r, g, b)) # Draw a dot of size 15 with the calculated color
 
-# Hide the turtle and keep the window open
-t.hideturtle()
+# Update the screen to show the final drawing
+screen.update()
 turtle.done()
